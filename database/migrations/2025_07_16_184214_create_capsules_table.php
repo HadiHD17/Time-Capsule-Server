@@ -43,5 +43,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('capsules');
+        Schema::dropIfExists('attachements');
     }
 };
