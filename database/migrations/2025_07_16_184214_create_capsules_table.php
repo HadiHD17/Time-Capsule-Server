@@ -18,12 +18,9 @@ return new class extends Migration
             $table->text('message');
             $table->datetime('reveal_date');
             $table->string('country')->nullable();
-            $table->enum('mood',['Happy', 'Sad', 'Excited', 'Angry', 'Anxious', 'Grateful',
-                                'Nostalgic', 'Romantic', 'Lonely', 'Peaceful', 'Confident',
-                                'Hopeful', 'Embarrassed', 'Curious', 'Inspired', 'Bored',
-                                'Surprised', 'Tired', 'Determined', 'Calm'])->nullable();
+            $table->string('mood')->nullable();
             $table->text('tag')->nullable();
-            $table->enum('privacy',['public', 'private', 'unlisted']);
+            $table->enum('privacy', ['public', 'private', 'unlisted']);
             $table->boolean('is_surprise')->default(false);
             $table->boolean('is_activated')->default(false);
             $table->timestamps();
@@ -32,7 +29,8 @@ return new class extends Migration
         Schema::create('attachements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('capsule_id')->references('id')->on('capsules')->onDelete('cascade');
-            $table->string('file_name');
+            $table->string('file_url');
+            $table->string('file_type');
             $table->timestamps();
         });
     }

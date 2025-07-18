@@ -6,9 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::group(["prefix" => "v0.1"], function () {
-    Route::get("/capsules", [CapsuleController::class, "GetAllCapsules"]);
-    Route::get("/capsule/{id}", [CapsuleController::class, "GetCapsuleById"]);
-    Route::post("/add_capsule", [CapsuleController::class, "AddCapsule"]);
-    Route::post("/login", [AuthController::class, "Login"]);
-    Route::post("/register", [AuthController::class, "Register"]);
+
+    Route::group(["middleware" => "auth:api"], function () {
+        Route::get("/capsules", [CapsuleController::class, "GetAllCapsules"]);
+        Route::get("/capsule/{id}", [CapsuleController::class, "GetCapsuleById"]);
+        Route::post("/add_capsule", [CapsuleController::class, "AddCapsule"]);
+    });
+    Route::group(["prefix" => "guest"], function () {
+        Route::post("/login", [AuthController::class, "Login"]);
+        Route::post("/register", [AuthController::class, "Register"]);
+    });
 });

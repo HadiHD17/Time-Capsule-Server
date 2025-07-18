@@ -5,21 +5,26 @@ namespace Database\Factories;
 use App\Models\Capsule;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attachement>
- */
+
 class AttachementFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
+        $types = ['image', 'audio', 'video'];
+        $fileType = $this->faker->randomElement($types);
+
+        $extensions = [
+            'image' => ['jpg', 'jpeg', 'png', 'gif'],
+            'audio' => ['mp3', 'wav'],
+            'video' => ['mp4', 'avi', 'mov']
+        ];
+
+        $ext = $this->faker->randomElement($extensions[$fileType]);
+
         return [
-            'capsule_id' => Capsule::factory(),
-            'file_name' => $this->faker->lexify('file_????') . '.' . $this->faker->fileExtension(),
+            'capsule_id' => Capsule::inRandomOrder()->first()?->id ?? Capsule::factory(),
+            'file_type'  => $fileType,
+            'file_url'   => $this->faker->url() . '/file-' . $this->faker->uuid . '.' . $ext,
         ];
     }
 }
