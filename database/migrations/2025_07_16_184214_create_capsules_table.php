@@ -25,7 +25,7 @@ return new class extends Migration
             $table->text('tag')->nullable();
             $table->enum('privacy',['public', 'private', 'unlisted']);
             $table->boolean('is_surprise')->default(false);
-            $table->boolean('is_activated')->default(false)->unique();
+            $table->boolean('is_activated')->default(false);
             $table->timestamps();
         });
 

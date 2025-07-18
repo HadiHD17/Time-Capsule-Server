@@ -2,18 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Attachement;
-use Illuminate\Contracts\Mail\Attachable;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AttachementSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Attachement::factory(10)->create();
+        User::factory(10)->create();
     }
 }

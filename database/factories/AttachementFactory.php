@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Capsule;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,8 @@ class AttachementFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'capsule_id' => Capsule::factory(),
+            'file_name' => $this->faker->lexify('file_????') . '.' . $this->faker->fileExtension(),
         ];
     }
 }
