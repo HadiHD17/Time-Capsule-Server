@@ -27,7 +27,7 @@ class CapsuleController extends Controller
         return $this->responseJSON($capsule);
     }
 
-    function AddCapsule(Request $request)
+    public function AddCapsule(Request $request)
     {
         $capsule = CapsuleService::createCapsule($request);
         return $this->responseJSON($capsule);

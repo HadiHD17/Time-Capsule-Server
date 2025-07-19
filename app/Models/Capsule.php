@@ -9,4 +9,9 @@ class Capsule extends Model
 {
     /** @use HasFactory<\Database\Factories\CapsuleFactory> */
     use HasFactory;
+
+    public function attachements()
+    {
+        return $this->hasOne(Attachement::class, 'capsule_id');
+    }
 }
