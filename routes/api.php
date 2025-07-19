@@ -12,6 +12,7 @@ Route::group(["prefix" => "v0.1"], function () {
         Route::get("/capsule/{id}", [CapsuleController::class, "GetCapsuleById"]);
         Route::get("/capsules/user", [CapsuleController::class, "GetCapsuleByUser"]);
         Route::post("/add_capsule", [CapsuleController::class, "AddCapsule"]);
+        Route::get('/capsules/public', [CapsuleController::class, 'GetPublicCapsules']);
     });
     Route::group(["prefix" => "guest"], function () {
         Route::post("/login", [AuthController::class, "Login"]);

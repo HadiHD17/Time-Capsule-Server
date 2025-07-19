@@ -15,6 +15,13 @@ class CapsuleController extends Controller
         return $this->responseJSON($capsules);
     }
 
+    public function GetPublicCapsules()
+    {
+        $capsules = CapsuleService::getPublicCapsules();
+        return $this->responseJSON($capsules);
+    }
+
+
     function GetCapsuleByUser(Request $request)
     {
         $capsules = CapsuleService::getCapsulesbyUser($request);

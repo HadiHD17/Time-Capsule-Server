@@ -17,6 +17,13 @@ class CapsuleService
         return Capsule::findorFail($id);
     }
 
+    static function getPublicCapsules()
+    {
+        return Capsule::where('privacy', 'public')
+            ->where('is_activated', true)
+            ->get();
+    }
+
     static function getCapsulesbyUser(Request $request)
     {
         $user = $request->user();
@@ -28,7 +35,10 @@ class CapsuleService
     {
         $user = $request->user();
         $data = $request->all();
-        $position = Location::get('8.8.8.8');
+
+        $ip = $data['user_ip'] ?? $request->ip();
+
+        $position = Location::get($ip);
         $countryName = $position ? $position->countryName : null;
 
         $capsule = new Capsule();
@@ -45,15 +55,15 @@ class CapsuleService
         $capsule->is_activated  = $data['is_activated'] ?? false;
 
         $capsule->save();
-        $attachmentFile = $request->file('attachment_file');
-        if (!empty($data['attachment_file'])) {
-            $path = $data['attachment_file']->store('attachments', 'public');
+
+        if ($request->hasFile('attachment_file')) {
+            $file = $request->file('attachment_file');
+            $path = $file->store('attachments', 'public');
             $attachment = new Attachement();
             $attachment->file_url = $path;
-            $attachment->file_type = $data['attachment_file']->getClientMimeType();
+            $attachment->file_type = $file->getClientMimeType();
             $capsule->attachements()->save($attachment);
         }
-
 
         return $capsule;
     }
