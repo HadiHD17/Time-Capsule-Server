@@ -58,7 +58,7 @@ class CapsuleService
 
         if ($request->hasFile('attachment_file')) {
             $file = $request->file('attachment_file');
-            $path = $file->store('attachments', 'public');
+            $path = $file->store('attachments');
             $attachment = new Attachement();
             $attachment->file_url = $path;
             $attachment->file_type = $file->getClientMimeType();

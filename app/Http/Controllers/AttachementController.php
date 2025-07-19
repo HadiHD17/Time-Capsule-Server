@@ -8,59 +8,15 @@ use App\Http\Requests\UpdateAttachementRequest;
 
 class AttachementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function GetAttachment($id)
     {
-        //
-    }
+        $attachment = Attachement::findOrFail($id);
+        $path = storage_path('app/' . $attachment->file_url);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        if (!file_exists($path)) {
+            abort(404);
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreAttachementRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Attachement $attachement)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Attachement $attachement)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAttachementRequest $request, Attachement $attachement)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Attachement $attachement)
-    {
-        //
+        return response()->file($path);
     }
 }
