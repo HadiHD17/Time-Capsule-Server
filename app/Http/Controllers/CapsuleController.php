@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Capsule;
-use App\Http\Requests\StoreCapsuleRequest;
-use App\Http\Requests\UpdateCapsuleRequest;
+
 use App\Services\User\CapsuleService;
 use Illuminate\Http\Request;
 
@@ -12,7 +10,14 @@ class CapsuleController extends Controller
 {
     function GetAllCapsules()
     {
+
         $capsules = CapsuleService::getAllCapsules();
+        return $this->responseJSON($capsules);
+    }
+
+    function GetCapsuleByUser(Request $request)
+    {
+        $capsules = CapsuleService::getCapsulesbyUser($request);
         return $this->responseJSON($capsules);
     }
 

@@ -10,6 +10,7 @@ Route::group(["prefix" => "v0.1"], function () {
     Route::group(["middleware" => "auth:api"], function () {
         Route::get("/capsules", [CapsuleController::class, "GetAllCapsules"]);
         Route::get("/capsule/{id}", [CapsuleController::class, "GetCapsuleById"]);
+        Route::get("/capsules/user", [CapsuleController::class, "GetCapsuleByUser"]);
         Route::post("/add_capsule", [CapsuleController::class, "AddCapsule"]);
     });
     Route::group(["prefix" => "guest"], function () {
