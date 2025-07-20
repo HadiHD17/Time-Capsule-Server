@@ -5,17 +5,21 @@ namespace App\Services\User;
 use App\Models\Attachement;
 use App\Models\Capsule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Stevebauman\Location\Facades\Location;
+use App\Traits\ResponseTrait;
+use Illuminate\Support\Facades\Log;
 
 class CapsuleService
 {
     static function getAllCapsules($id = null)
     {
         if (!$id) {
-            return Capsule::all();
+            return Capsule::with('attachments')->get();
         }
-        return Capsule::findorFail($id);
+        return Capsule::with('attachments')->findOrFail($id);
     }
+
 
     static function getPublicCapsules()
     {
@@ -56,15 +60,33 @@ class CapsuleService
 
         $capsule->save();
 
-        if ($request->hasFile('attachment_file')) {
-            $file = $request->file('attachment_file');
-            $path = $file->store('attachments');
-            $attachment = new Attachement();
-            $attachment->file_url = $path;
-            $attachment->file_type = $file->getClientMimeType();
-            $capsule->attachements()->save($attachment);
+        if ($request->has('attachments')) {
+            $attachments = $request->input('attachments');
+
+            foreach ($attachments as $base64File) {
+                if (preg_match('/^data:(.*?);base64,(.*)$/', $base64File, $matches)) {
+                    $mimeType = $matches[1];
+                    $data = base64_decode($matches[2]);
+
+                    $extension = explode('/', $mimeType)[1] ?? 'bin';
+                    $filename = uniqid('', true) . '.' . $extension;
+                    $path = 'attachments/' . $filename;
+
+                    Storage::disk('public')->put($path, $data);
+
+
+                    $attachment = new Attachement();
+                    $attachment->capsule_id = $capsule->id;
+                    $attachment->file_url = $path;
+                    $attachment->file_type = $mimeType;
+                    $attachment->save();
+                }
+            }
         }
 
-        return $capsule;
+        return response()->json([
+            'message' => 'Capsule created successfully',
+            'capsule' => $capsule->load('attachments'),
+        ]);
     }
 }
