@@ -31,7 +31,14 @@ class CapsuleService
     static function getCapsulesbyUser(Request $request)
     {
         $user = $request->user();
-        $capsules = Capsule::where('user_id', $user->id)->get();
+        $capsules = Capsule::where('user_id', $user->id)->where(function ($query) {
+            $query->where('is_surprise', false)
+                ->orWhere(function ($q) {
+                    $q->where('is_surprise', true)
+                        ->where('is_activated', true);
+                });
+        })
+            ->get();
         return $capsules;
     }
 
