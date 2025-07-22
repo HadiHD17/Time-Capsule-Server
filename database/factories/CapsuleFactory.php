@@ -73,6 +73,7 @@ class CapsuleFactory extends Factory
             'privacy' => $faker->randomElement(['public', 'private', 'unlisted']),
             'is_surprise' => $faker->boolean(),
             'is_activated' => false,
+
         ];
     }
 }

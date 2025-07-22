@@ -2,6 +2,7 @@
 
 namespace App\Services\User;
 
+use App\Mail\CapsuleRevealedMail;
 use App\Models\Attachement;
 use App\Models\Capsule;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Stevebauman\Location\Facades\Location;
 use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class CapsuleService
 {
