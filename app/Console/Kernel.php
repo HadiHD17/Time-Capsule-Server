@@ -7,9 +7,13 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+    // Register your command here
+    protected $commands = [
+        \App\Console\Commands\ActivateCapsules::class,
+    ];
+
     protected function schedule(Schedule $schedule)
     {
-        // Schedule your commands here
         $schedule->command('capsules:activate')->everyMinute();
     }
 
