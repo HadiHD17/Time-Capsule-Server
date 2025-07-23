@@ -14,14 +14,10 @@ class AttachementController extends Controller
     public function GetAttachment(Request $request, $id)
     {
         $attachment = Attachement::findOrFail($id);
-
-        // Use the Storage facade for the 'public' disk
         $path = Storage::disk('public')->path($attachment->file_url);
-
         if (!file_exists($path)) {
             abort(404);
         }
-
         return response()->file($path);
     }
 }
